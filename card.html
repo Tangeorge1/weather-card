@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>21℃贴心管家 · 明日天气早报</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #eef2f7;
+    font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  }
+  /* 固定 640×900 海报，卡片贴左上角(0,0)，方便截图服务按 0,0,640,900 裁切 */
+  .card {
+    width: 640px;
+    height: 900px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+  .header {
+    background: linear-gradient(135deg, #2f80ed, #56ccf2);
+    color: #fff; padding: 22px 28px;
+    font-size: 24px; font-weight: 700; letter-spacing: 1px;
+  }
+  .header small { font-weight: 400; font-size: 15px; opacity: .9; }
+  .body { flex: 1; padding: 28px; display: flex; flex-direction: column; }
+  .city-date { display: flex; justify-content: space-between; color: #6b7280; font-size: 16px; margin-bottom: 10px; }
+  .weather-main { display: flex; align-items: baseline; gap: 18px; }
+  .weather { font-size: 34px; font-weight: 700; color: #1f2937; }
+  .temp { font-size: 40px; font-weight: 700; color: #2f80ed; }
+  .wind { color: #4b5563; font-size: 17px; margin-top: 8px; }
+  .section {
+    margin-top: 18px; padding: 16px 18px;
+    background: #f6f9fe; border-radius: 12px; font-size: 17px; color: #1f2937;
+    line-height: 1.7;
+  }
+  .section b { color: #2f80ed; }
+  .warn {
+    margin-top: 18px; padding: 16px 18px;
+    background: #fff4e5; border-left: 4px solid #f2994a; border-radius: 8px;
+    font-size: 16px; color: #92400e; line-height: 1.7;
+  }
+  .footer { padding: 16px 28px; background: #f9fafb; color: #9ca3af; font-size: 13px; text-align: center; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">21℃ 贴心管家 <small>· 每日早报</small></div>
+  <div class="body">
+    <div class="city-date"><span id="city">安顺</span><span id="date">—</span></div>
+    <div class="weather-main"><span class="weather" id="weather">—</span><span class="temp" id="temp">—</span></div>
+    <div class="wind" id="wind">—</div>
+    <div class="section"><b>👔 着装建议</b><br /><span id="clothing">—</span></div>
+    <div class="section"><b>🎒 随身物品</b><br /><span id="items">—</span></div>
+    <div class="warn" id="warn" style="display:none">⚠️ <span id="warnText"></span></div>
+  </div>
+  <div class="footer">安顺市气象局 · 21℃贴心管家 · 数据仅供参考</div>
+</div>
+<script>
+  function q(n){ return new URLSearchParams(location.search).get(n) || ""; }
+  document.getElementById("city").textContent = q("city") || "安顺";
+  document.getElementById("date").textContent = q("date");
+  document.getElementById("weather").textContent = q("weather") || "—";
+  var low = q("low"), high = q("high");
+  document.getElementById("temp").textContent = (low && high) ? low + " ~ " + high + "℃" : "—";
+  document.getElementById("wind").textContent = q("wind") || "";
+  document.getElementById("clothing").textContent = q("clothing") || "—";
+  document.getElementById("items").textContent = q("items") || "—";
+  var warn = q("warn");
+  if (warn) { document.getElementById("warnText").textContent = warn; document.getElementById("warn").style.display = "block"; }
+</script>
+</body>
+</html>
